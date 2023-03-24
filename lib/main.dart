@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Chat App',
-      initialRoute: UserProvider==null ?loginView.routeName:HomeView.routeName,
-      // initialRoute: RegisterView.routeName,
+      // initialRoute: UserProvider==null ?loginView.routeName:HomeView.routeName,
+      initialRoute: RegisterView.routeName,
       routes: {
         RegisterView.routeName : (_) => const RegisterView(),
         loginView.routeName : (_) => const loginView(),

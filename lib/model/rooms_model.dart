@@ -3,15 +3,15 @@ class Rooms {
   String id;
   String roomTitle;
   String roomDesc;
-  String CategoryId;
+  String categoryId;
   Rooms(
       {required this.id,
         required this.roomTitle,
         required this.roomDesc,
-        required this.CategoryId});
+        required this.categoryId});
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'roomTitle': roomTitle, 'roomDesc': roomDesc, 'CategoryId': CategoryId};
+      {'id': id, 'roomTitle': roomTitle, 'roomDesc': roomDesc, 'categoryId': categoryId};
 
 
   Rooms.fromJson(Map<String,dynamic>json):
@@ -19,5 +19,5 @@ class Rooms {
           id: json['id'] as String,
           roomTitle: json['roomTitle'] as String,
           roomDesc: json['roomDesc'] as String,
-          CategoryId: json['CategoryId'] as String);
+          categoryId: json['categoryId'] as String);
 }

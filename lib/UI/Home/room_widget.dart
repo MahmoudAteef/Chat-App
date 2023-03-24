@@ -34,7 +34,7 @@ class RoomWidget extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.all(12),
                 child: Image.asset(
-                  'assets/images/${rooms.CategoryId}.png',
+                  'assets/images/${rooms.categoryId}.png',
                   width: MediaQuery.of(context).size.width * 0.2,
                   fit: BoxFit.fitWidth,
                 )),

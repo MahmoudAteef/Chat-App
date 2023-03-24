@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BaseViewModel<N extends BaseNavigator> extends ChangeNotifier{
-  N? navigator;
+  N? navigator = null;
 }
 
 abstract class BaseNavigator{}

@@ -13,10 +13,15 @@ class ChatViewModel extends BaseViewModel<ChatScreenNavigator>{
   void sendMessage(String messageContent,context)async{
     if(messageContent.trim().isEmpty){
       return;
-    } var message = Message(roomId: rooms.id, content: messageContent, dateTime: DateTime.now().microsecondsSinceEpoch, senderId: currentUser.username, senderName: currentUser.id);
+    }
+    var message = Message(roomId: rooms.id, content: messageContent, dateTime: DateTime.now().microsecondsSinceEpoch, senderId: currentUser.username, senderName: currentUser.id);
     try {
-    var res = await FireStoreUtils.insertMessageToRoom(message);
-    navigator?.clearMessageText();
+      await FireStoreUtils.insertMessageToRoom(message);
+      print("Error 300");
+      print(message);
+      navigator?.clearMessageText();
+      print("Error 300");
+      print(message);
     }catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
@@ -24,6 +29,8 @@ class ChatViewModel extends BaseViewModel<ChatScreenNavigator>{
   void listenForRoomUpdate(){
     messagesStream = FireStoreUtils.getMessagesStream(rooms.id);
   }
+
+
 }
 
 

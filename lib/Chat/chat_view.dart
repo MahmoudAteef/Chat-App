@@ -1,4 +1,5 @@
 import 'package:chat_app/Chat/chat_view_model.dart';
+import 'package:chat_app/Chat/message_widget.dart';
 import 'package:chat_app/base.dart';
 import 'package:chat_app/model/message_model.dart';
 import 'package:chat_app/model/rooms_model.dart';
@@ -87,7 +88,7 @@ class _ChatViewState extends BaseState<ChatView, ChatViewModel>
                           messages?.forEach((element){print(element);});
 
                           return ListView.builder(itemBuilder: (_,i){
-                            return Text(messages?.elementAt(i).content??"");
+                            return MessageWidget(messages!.elementAt(i));
                           },itemCount: messages?.length??0,);
                         },
                       )),

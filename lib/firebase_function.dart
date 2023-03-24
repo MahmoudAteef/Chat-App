@@ -48,14 +48,14 @@ class FireStoreUtils {
     var userDocSnapshot = await getUserCollection().doc(userId).get();
     return userDocSnapshot.data();
   }
-  static Future<void> createRoom(String roomTitle, String roomDesc, String CategoryId) async {
+  static Future<void> createRoom(String roomTitle, String roomDesc, String categoryId) async {
     var roomCollection = getRoomCollection();
     var decRef = roomCollection.doc();
     Rooms room = Rooms(
         id: decRef.id,
         roomTitle: roomTitle,
         roomDesc: roomDesc,
-        CategoryId: CategoryId);
+        categoryId: categoryId);
     return decRef.set(room);
   }
   static Future<void> insertMessageToRoom(Message message)async{
@@ -65,7 +65,7 @@ class FireStoreUtils {
     return docRef.set(message);
 
 }
-static Stream<QuerySnapshot<Message>>getMessagesStream(String roomId){
+  static Stream<QuerySnapshot<Message>>getMessagesStream(String roomId){
     return getMessagesCollection(roomId).orderBy('dateTime').snapshots();
 }
 
