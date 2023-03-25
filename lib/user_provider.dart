@@ -1,7 +1,7 @@
-import 'package:chat_app/firebase_function.dart';
 import 'package:chat_app/model/users_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'firebase_function.dart';
 
 class UserProvider extends ChangeNotifier {
   MyUser? user;
@@ -13,8 +13,8 @@ class UserProvider extends ChangeNotifier {
   }
 
   void initMyUser() async {
-    if (firebaseUser != null) {
-      user = await FireStoreUtils.readUser(firebaseUser?.uid ?? "");
+    if(firebaseUser != null) {
+      user = await FireStoreUtils.readUser(firebaseUser?.uid ?? "error");
     }
   }
 }

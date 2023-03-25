@@ -1,28 +1,37 @@
+
 import 'package:chat_app/UI/Login/login_view.dart';
+import 'package:chat_app/UI/Register/navigator.dart';
 import 'package:chat_app/UI/Register/register_view_model.dart';
+import 'package:chat_app/model/users_model.dart';
+import 'package:chat_app/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../base.dart';
+import '../Home/home_view.dart';
+
 class RegisterView extends StatefulWidget {
   static const String routeName = 'Register';
-
-  const RegisterView({super.key});
 
   @override
   State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _RegisterViewState extends BaseState<RegisterView,RegisterViewModel>implements RegisterNavigator{
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  RegisterViewModel viewModel = RegisterViewModel();
   String fullname = '';
   String username = '';
   String email = '';
   String password = '';
 
+@override
+  void initState() {
+    super.initState();
+    viewModel.navigator=this;
+  }
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RegisterViewModel>(
+    return ChangeNotifierProvider(
       create: (_) => viewModel,
       child: Stack(
         children: [
@@ -179,8 +188,22 @@ class _RegisterViewState extends State<RegisterView> {
 
   void validateForm() {
     if (formKey.currentState?.validate() == true) {
-      viewModel.register(fullname,username,email, password,context);
+      viewModel.register(fullname,username,email, password);
     }
+  }
+
+  @override
+  RegisterViewModel initViewModel() {
+    return RegisterViewModel();
+  }
+
+  @override
+  void goToLogin(MyUser user) {
+  var userProvider = Provider.of<UserProvider>(context,listen: false);
+  userProvider.user = user;
+    Navigator.of(context).pushReplacementNamed('Home');
+  showMessage('Registration Successful');
+
   }
 
 }

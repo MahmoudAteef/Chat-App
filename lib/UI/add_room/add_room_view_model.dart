@@ -1,15 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:chat_app/UI/add_room/navigator.dart';
+import 'package:chat_app/base.dart';
 import '../../firebase_function.dart';
 
-class AddRoomViewModel extends ChangeNotifier {
-  void createRoom(String roomTitle, String roomDesc, String CategoryId,
-      BuildContext context) async {
+class AddRoomViewModel extends BaseViewModel<AddRoomNavigator>{
+  void createRoom(String roomTitle, String roomDesc, String CategoryId) async {
+    String? message=null;
     try {
-      var res = await FireStoreUtils.createRoom(roomTitle,roomDesc,CategoryId);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Room Created')));
+      var res = FireStoreUtils.createRoom(roomTitle,roomDesc,CategoryId);
+      navigator?.showLoading();
     }catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      message = e.toString();
+    }
+    if(message!=null){
+      navigator?.showMessage(message);
+    }else{
+      navigator?.roomCreated();
     }
   }
 

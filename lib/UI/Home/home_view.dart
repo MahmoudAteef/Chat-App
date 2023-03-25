@@ -1,31 +1,34 @@
 import 'package:chat_app/UI/Home/home_view_model.dart';
+import 'package:chat_app/UI/Home/navigator.dart';
 import 'package:chat_app/UI/Home/room_widget.dart';
+import 'package:chat_app/UI/Login/login_view.dart';
 import 'package:chat_app/UI/add_room/add_room.dart';
+import 'package:chat_app/base.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
 static const String routeName = 'Home';
 
-  const HomeView({super.key});
 
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-HomeViewModel viewModel = HomeViewModel();
+class _HomeViewState extends BaseState<HomeView,HomeViewModel> implements HomeNavigator{
 
 @override
   void initState() {
     super.initState();
     viewModel.getRooms();
+    viewModel.navigator = this;
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => HomeViewModel(),
+      create: (_) => viewModel,
       child: Stack(
         children: [
           Container(
@@ -40,6 +43,14 @@ HomeViewModel viewModel = HomeViewModel();
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              actions: [
+                InkWell(
+                    onTap: (){
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pushNamed(context, loginView.routeName);
+                    },
+                    child: Icon(Icons.logout))
+              ],
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -72,5 +83,10 @@ HomeViewModel viewModel = HomeViewModel();
         ],
       ),
     );
+  }
+
+  @override
+  HomeViewModel initViewModel() {
+  return HomeViewModel();
   }
 }

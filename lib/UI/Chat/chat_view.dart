@@ -1,5 +1,3 @@
-import 'package:chat_app/Chat/chat_view_model.dart';
-import 'package:chat_app/Chat/message_widget.dart';
 import 'package:chat_app/base.dart';
 import 'package:chat_app/model/message_model.dart';
 import 'package:chat_app/model/rooms_model.dart';
@@ -7,11 +5,12 @@ import 'package:chat_app/user_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'chat_view_model.dart';
+import 'message_widget.dart';
 
 class ChatView extends StatefulWidget {
   static const String routeName = 'Chat';
 
-  const ChatView({super.key});
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -19,7 +18,6 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends BaseState<ChatView, ChatViewModel>
     implements ChatScreenNavigator {
-  // ChatViewModel viewModel = ChatViewModel();
 
   @override
   void initState() {
@@ -34,6 +32,7 @@ class _ChatViewState extends BaseState<ChatView, ChatViewModel>
     Rooms room = ModalRoute.of(context)?.settings.arguments as Rooms;
     var userProvider = Provider.of<UserProvider>(context);
     viewModel.rooms = room;
+    print('Error');
     viewModel.currentUser = userProvider.user!;
     viewModel.listenForRoomUpdate();
     return ChangeNotifierProvider(
@@ -85,10 +84,8 @@ class _ChatViewState extends BaseState<ChatView, ChatViewModel>
                             return Center(child: Text(snapshot.error.toString()),);
                           }
                           var messages =  (snapshot.data?.docs.map((doc) => doc.data()).toList());
-                          messages?.forEach((element){print(element);});
-
-                          return ListView.builder(itemBuilder: (_,i){
-                            return MessageWidget(messages!.elementAt(i));
+                          return ListView.builder(itemBuilder: (_,index){
+                            return MessageWidget(messages!.elementAt(index));
                           },itemCount: messages?.length??0,);
                         },
                       )),
@@ -117,7 +114,7 @@ class _ChatViewState extends BaseState<ChatView, ChatViewModel>
                         ),
                         ElevatedButton(
                             onPressed: () {
-                              viewModel.sendMessage(messageContent, context);
+                              viewModel.sendMessage(messageContent);
                             },
                             child: Row(
                               children: const [

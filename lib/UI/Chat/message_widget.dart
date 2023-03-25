@@ -1,7 +1,7 @@
 import 'package:chat_app/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../model/message_model.dart';
+import '../../model/message_model.dart';
 
 class MessageWidget extends StatelessWidget {
 

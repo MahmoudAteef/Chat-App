@@ -1,5 +1,10 @@
+import 'package:chat_app/UI/Home/home_view.dart';
+import 'package:chat_app/UI/Login/navigator.dart';
+import 'package:chat_app/base.dart';
+import 'package:chat_app/model/users_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../user_provider.dart';
 import '../Register/register_view.dart';
 import 'login_view_model.dart';
 
@@ -7,23 +12,25 @@ class loginView extends StatefulWidget {
 
 static const String routeName = 'Login';
 
-  const loginView({super.key});
-
   @override
   State<loginView> createState() => _loginViewState();
 }
-class _loginViewState extends State<loginView> {
+class _loginViewState extends BaseState<loginView,LoginViewModel> implements LoginNavigator{
 
+  GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
 
-LoginViewModel viewModel = LoginViewModel();
-GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    viewModel.navigator = this;
+  }
 
   String email = '';
   String password = '';
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LoginViewModel>(
+    return ChangeNotifierProvider(
       create: (_) => viewModel,
       child: Stack(
         children: [
@@ -156,7 +163,21 @@ GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
 
 void validateForm1() {
   if (formKey2.currentState?.validate() == true) {
-    viewModel.login(email, password,context);
+    viewModel.login(email, password);
   }
 }
+
+  @override
+  LoginViewModel initViewModel() {
+    return LoginViewModel();
+  }
+
+  @override
+  void goToHome(MyUser user) {
+    var userProvider = Provider.of<UserProvider>(context,listen: false);
+    userProvider.user = user;
+    Navigator.pushReplacementNamed(context, HomeView.routeName);
+    showMessage('You are Logged in');
+
+  }
 }

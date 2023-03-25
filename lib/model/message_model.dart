@@ -1,5 +1,5 @@
 class Message{
-  static const String collectionName = 'messages';
+  static const String collectionName = 'Messages';
   String id;
   String roomId;
   String content;

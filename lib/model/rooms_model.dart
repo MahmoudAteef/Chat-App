@@ -1,5 +1,5 @@
 class Rooms {
-  // static const String collectionName = '';
+  static const String collectionName = 'Rooms';
   String id;
   String roomTitle;
   String roomDesc;

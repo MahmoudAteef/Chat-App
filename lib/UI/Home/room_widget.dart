@@ -1,12 +1,11 @@
-import 'package:chat_app/Chat/chat_view.dart';
 import 'package:flutter/material.dart';
-
 import '../../model/rooms_model.dart';
+import '../Chat/chat_view.dart';
 
 
 class RoomWidget extends StatelessWidget {
   Rooms rooms;
-  RoomWidget(this.rooms, {super.key});
+  RoomWidget(this.rooms);
 
   @override
   Widget build(BuildContext context) {

@@ -1,22 +1,21 @@
+import 'package:chat_app/base.dart';
 import 'package:chat_app/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'add_room_view_model.dart';
+import 'navigator.dart';
 
 class AddRoomView extends StatefulWidget {
   static const String routeName = 'Room';
-
-  const AddRoomView({super.key});
 
   @override
   State<AddRoomView> createState() => _AddRoomViewState();
 }
 
-class _AddRoomViewState extends State<AddRoomView> {
+class _AddRoomViewState extends BaseState<AddRoomView,AddRoomViewModel> implements AddRoomNavigator {
   var categories = Category.getCategories();
   late Category selectedItem;
   GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
-  AddRoomViewModel viewModel = AddRoomViewModel();
 
   String title="";
   String description='';
@@ -26,12 +25,13 @@ class _AddRoomViewState extends State<AddRoomView> {
   void initState() {
     super.initState();
     selectedItem = categories[0];
+    viewModel.navigator = this;
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AddRoomViewModel(),
+      create: (_) => viewModel,
       child: Stack(
         children: [
           Container(
@@ -170,9 +170,21 @@ class _AddRoomViewState extends State<AddRoomView> {
   }
   void validateForm(){
     if(formKey3.currentState?.validate() == true){
-      viewModel.createRoom(title, description, selectedItem.id, context);
+      viewModel.createRoom(title, description, selectedItem.id);
 
     }
+
+  }
+
+  @override
+  AddRoomViewModel initViewModel() {
+    return AddRoomViewModel();
+  }
+
+  @override
+  void roomCreated() {
+    showMessage('Room Created');
+      hideDialog();
 
   }
 }
